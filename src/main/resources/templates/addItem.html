@@ -1,0 +1,276 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="../static/css/header.css" rel="stylesheet" th:href="@{/css/header.css}">
+    <link href="../static/css/footer.css" rel="stylesheet" th:href="@{/css/footer.css}">
+
+    <title>Add ITem</title>
+</head>
+<body>
+<header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid" style="min-height: 80px">
+            <a class="navbar-brand" href="#">
+                <!-- Replace the text with your logo or image -->
+                <img src="../static/img/logo.jpg" alt="Logo" th:src="@{/img/logo.jpg}" style="width: 5rem;height: 5rem;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/dashboard}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  th:href="@{/dashboard/list}">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cart/list}">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#adminConfirmationModal">Admin</button>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/user/view}">View Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete Account</button></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" type="button" data-bs-target="#logoutConfirmationModal" data-bs-toggle="modal">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main  >
+
+    <div class="container-fluid mt-3 pt-3">
+    <div class="h1 text-center mt-5">
+        Add Item
+    </div>
+        <div class="row">
+
+        <div class="col-8">
+            <div class="ms-4">
+
+        <form th:action="@{/beverage/save}" th:method="post"  enctype="multipart/form-data">
+            <div class="form-group mb-4">
+                <label for="name">Beverage Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Item Name">
+            </div>
+            <div class="form-group mb-4">
+                <label for="description">Beverage Description</label>
+                <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter Item Description">
+                </textarea>
+            </div>
+            <div class="form-group mb-4">
+                <label for="price">Beverage Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter Item Price">
+            </div>
+            <div class="form-group mb-4">
+                <label for="image">Beverage Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" >
+            </div>
+            <div class="form-group mb-4 ">
+                <div class="row">
+            <div class="col-2  me-3`">
+                <label for="sel1" class="form-label">Select Category</label>
+                <select class="form-select" id="sel1" name="categoryId">
+                    <option th:each="category:${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                </select>
+                </div>
+                    <div class="col-3">
+                        <!-- Button to Open the Modal -->
+                        <button type="button"  style="margin-top: 30px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                            Add category
+                        </button>
+                    </div>
+                </div>
+            </div>
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+        </form>
+            </div>
+        </div>
+            <!--Display Image -->
+        <div class="col-2">
+            <img  id="preview-image"style="width: 500px;height: 500px;padding-left: 40px;border: black" class="img-fluid" alt="Product IMG">
+        </div>
+        </div>
+    </div>
+</main>
+<div class="footer pt-3"></div>
+<!--Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form th:action="@{/category/save}" th:method="post">
+                    <div class="mb-3">
+                        <label for="catName" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" id="catName" placeholder="Enter category name" name="name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Delete Modal-->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this account?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- Delete link to the delete URL -->
+                <form th:action="@{/user/delete}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--AdminModal-->
+<div class="modal fade" id="adminConfirmationModal" tabindex="-1" aria-labelledby="adminConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adminConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form th:action="@{/user/checkAdmin}" method="post">
+                <div class="modal-body">
+                    Are you sure you want to make this user an admin?
+                    <div class="row">
+                        <label for="name">Name</label><input type="text" name="name" id="name" >
+                    </div>
+                    <div class="row">
+                        <label for="password">Password</label><input type="password" name="password" id="password" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- Delete link to the delete URL -->
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Logout Confirmation model-->
+<div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- Delete link to the delete URL -->
+                <form th:action="@{/user/logout}" method="post">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer >
+    <div class="container-fluid bg-dark text-light py-4">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Explore</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Order Now</a></li>
+                    <li><a href="#">Deals</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>About Us</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Follow Us</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-secondary text-light text-center py-2">
+        <p>&copy; 2023 Beverage Ordering Website. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    // JavaScript code for updating the selected image
+    document.getElementById('image').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview-image').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+</body>
+
+</html>
