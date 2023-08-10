@@ -27,7 +27,7 @@ public class CartController {
     public String addToCart(@Valid CartDto cartDto) {
         System.out.println(cartDto.getBeverageId());
         cartService.addToCart(cartDto);
-        return "redirect:/dashboard/menu";
+        return "redirect:/dashboard/list";
     }
     @GetMapping("/list")
     public String getCartList(Model model) {
