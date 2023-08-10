@@ -117,7 +117,7 @@
             <div class="col-md-3">
                 <div class="search-filter">
                     <h3>Search and Filter</h3>
-                    <form th:action="@{/dashboard/menu}" method="get">
+                    <form th:action="@{/dashboard/list}" method="get">
 
                     <input type="text" class="form-control mb-3" placeholder="Search for dishes" name="partialName">
 
@@ -156,19 +156,19 @@
                 </div>
                 <ul class="pagination justify-content-center">
                     <li class="page-beverage">
-                        <a class="page-link" th:if="${currentPage > 1}" th:href="@{/dashboard/menu(page=1, id=${param.id},partialName=${param.partialName})}">First</a>
+                        <a class="page-link" th:if="${currentPage > 1}" th:href="@{/dashboard/list(page=1, id=${param.id},partialName=${param.partialName})}">First</a>
                     </li>
                     <li class="page-beverage">
-                        <a class="page-link" th:if="${currentPage > 1}" th:href="@{/dashboard/menu(page=${currentPage - 1}, id=${param.id},partialName=${param.partialName})}">Previous</a>
+                        <a class="page-link" th:if="${currentPage > 1}" th:href="@{/dashboard/list(page=${currentPage - 1}, id=${param.id},partialName=${param.partialName})}">Previous</a>
                     </li>
                     <li class="page-beverage" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                        <a class="page-link" th:href="@{/dashboard/menu(page=${pageNumber},id=${param.id},partialName=${param.partialName})}" th:text="${pageNumber}"></a>
+                        <a class="page-link" th:href="@{/dashboard/list(page=${pageNumber},id=${param.id},partialName=${param.partialName})}" th:text="${pageNumber}"></a>
                     </li>
                     <li class="page-beverage">
-                        <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{/dashboard/menu(page=${currentPage + 1}, id=${param.id},partialName=${param.partialName})}">Next</a>
+                        <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{/dashboard/list(page=${currentPage + 1}, id=${param.id},partialName=${param.partialName})}">Next</a>
                     </li>
                     <li class="page-beverage">
-                        <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{/dashboard/menu(page=${totalPages}, id=${param.id},partialName=${param.partialName})}">Last</a>
+                        <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{/dashboard/list(page=${totalPages}, id=${param.id},partialName=${param.partialName})}">Last</a>
                     </li>
                 </ul>
             </div>
